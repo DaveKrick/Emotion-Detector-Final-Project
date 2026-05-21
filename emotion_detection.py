@@ -11,6 +11,17 @@ def emotion_detector(text_to_analyze):
         }
     }
     response = requests.post(url, json = myObject, headers=header)
+    
+    #Convert response to json
     jsonResponse = response.json()
+    
+    #Get all emotions from jsonResponse
+    emotions = jsonResponse["emotionPredictions"][0]["emotion"]
+    
+    #Find dominant emotion name
+    dominant_emotion = max(emotions, key=emotions.get)
+    
+    #Add dominant emotion do dictionary/json
+    emotions["dominant_emotion"] = dominant_emotion
 
-    return jsonResponse
+    return emotions
